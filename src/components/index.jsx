@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Query, Builder, Utils as QbUtils,
 } from 'react-awesome-query-builder';
@@ -16,29 +16,30 @@ const {
   sqlFormat,
   checkTree,
   loadFromJsonLogic,
+  loadTree,
 } = QbUtils;
 
 const InitialConfig = AntdConfig;
 
-function QueryForm({ config, loadedInitLogic }) {
-  const initLogic = useMemo(() => (loadedInitLogic && Object.keys(loadedInitLogic).length > 0
-    ? loadedInitLogic
-    : undefined), [loadedInitLogic]);
+const emptyJsonTree = {
+  id: QbUtils.uuid(),
+  type: 'group',
+};
 
-  const initTree = useMemo(() => checkTree(
-    loadFromJsonLogic(initLogic, config),
+function QueryForm({ config, initValue }) {
+  const initTree = useMemo(() => ((initValue && Object.keys(initValue).length) ? checkTree(
+    loadFromJsonLogic(initValue, config),
     config,
-  ), [initLogic, config]);
+  ) : checkTree(loadTree(emptyJsonTree), config)), [initValue, config]);
 
   const [state, setState] = useState({
     tree: initTree,
     config,
   });
 
-  const onChange = useCallback((immutableTree, configForm, actionMeta) => {
-    if (!actionMeta) return;
+  const onChange = (immutableTree, configForm) => {
     setState((prevState) => ({ ...prevState, tree: immutableTree, config: configForm }));
-  }, []);
+  };
 
   const renderBuilder = (props) => (
     <div className="query-builder-container">
@@ -48,20 +49,6 @@ function QueryForm({ config, loadedInitLogic }) {
     </div>
   );
 
-  const onReaderLoad = (e) => {
-    const uploadFileValue = checkTree(
-      loadFromJsonLogic(JSON.parse(e.target.result), config),
-      config,
-    );
-    setState((prevState) => ({ ...prevState, tree: uploadFileValue }));
-  };
-
-  const onChangeSpelJson = (e) => {
-    const reader = new FileReader();
-    reader.onload = onReaderLoad;
-    reader.readAsText(e.target.files[0]);
-  };
-
   return (
     <div>
       <Query
@@ -70,10 +57,6 @@ function QueryForm({ config, loadedInitLogic }) {
         onChange={onChange}
         renderBuilder={renderBuilder}
       />
-      <div className="query-import-spel">
-        Import JSON Rules:
-        <input type="file" name="file" onChange={onChangeSpelJson} />
-      </div>
 
       <div className="query-builder-result">
         <div>
@@ -109,12 +92,12 @@ function QueryForm({ config, loadedInitLogic }) {
 
 QueryForm.propTypes = {
   config: PropTypes.shape({}),
-  loadedInitLogic: PropTypes.shape({}),
+  initValue: PropTypes.shape({}),
 };
 
 QueryForm.defaultProps = {
   config: { ...InitialConfig },
-  loadedInitLogic: null,
+  initValue: null,
 };
 
 export default QueryForm;
