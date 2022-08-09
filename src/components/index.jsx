@@ -95,7 +95,6 @@ function QueryForm({ config, loadedInitLogic }) {
           Json Rules:
           {' '}
           <pre>
-            {/* {JSON.stringify(jsonLogicFormat(state.tree, state.config))} */}
             {JSON.stringify(
               jsonLogicFormat(state.tree, state.config).logic,
               undefined,
