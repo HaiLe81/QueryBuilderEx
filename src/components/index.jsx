@@ -92,7 +92,7 @@ function QueryForm({ config, loadedInitLogic }) {
           <pre>{JSON.stringify(sqlFormat(state.tree, state.config))}</pre>
         </div>
         <div>
-          Json Rules:
+          Json Rules::
           {' '}
           <pre>
             {JSON.stringify(
