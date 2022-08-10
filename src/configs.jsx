@@ -3,7 +3,7 @@ import React from 'react';
 // For AntDesign widgets only:
 import AntdConfig from 'react-awesome-query-builder/lib/config/antd';
 
-import { ReactSelect } from './ReactSelect';
+import { ReactSelect } from './components/QueryBuilder/ReactSelect';
 
 const InitialConfig = AntdConfig;
 

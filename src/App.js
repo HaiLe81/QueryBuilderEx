@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
-import QueryForm from './components';
-import configs from './components/configs';
-import initValue from './components/initialValues';
+import QueryForm from './components/QueryBuilder';
+import configs from './configs';
+import initValue from './initialValues';
 
 function App() {
   const [state, setState] = useState(initValue);
