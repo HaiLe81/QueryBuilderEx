@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Query, Builder, Utils as QbUtils,
 } from 'react-awesome-query-builder';
@@ -36,6 +36,10 @@ function QueryForm({ config, initValue }) {
     tree: initTree,
     config,
   });
+
+  useEffect(() => {
+    setState((prev) => ({ ...prev, tree: initTree }));
+  }, [initValue, config]);
 
   const onChange = (immutableTree, configForm) => {
     setState((prevState) => ({ ...prevState, tree: immutableTree, config: configForm }));
