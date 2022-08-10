@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import QueryForm from './components/QueryBuilder';
-import configs from './configs';
+import configs from './components/QueryBuilder/configs';
 import initValue from './initialValues';
 
 function App() {

@@ -3,7 +3,7 @@ import React from 'react';
 // For AntDesign widgets only:
 import AntdConfig from 'react-awesome-query-builder/lib/config/antd';
 
-import { ReactSelect } from './components/QueryBuilder/ReactSelect';
+import { ReactSelect } from './ReactSelect';
 
 const InitialConfig = AntdConfig;
 
@@ -143,11 +143,13 @@ const fields = {
       valuePlaceholder: 'xxx here',
     },
     fieldSettings: {
-      listValues: [
-        { value: 'yellow', title: 'Yellow' },
-        { value: 'green', title: 'Green' },
-        { value: 'orange', title: 'Orange' },
-      ],
+      asyncFetch: async () => ({
+        values: [
+          { value: 'yellow', title: 'Yellow' },
+          { value: 'green', title: 'Green' },
+          { value: 'orange', title: 'Orange' },
+        ],
+      }),
     },
   },
   is_promotion: {
@@ -163,10 +165,11 @@ const widgets = {
   select: {
     ...InitialConfig.widgets.select,
     factory: (props) => (
-      <div className="ahihi-day-ne">
+      <div>
         <ReactSelect
-            // eslint-disable-next-line react/jsx-props-no-spreading
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
+          options={props.listValues}
           setValue={props.setValue}
           value={props.value}
         />
